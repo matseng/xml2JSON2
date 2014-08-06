@@ -23,8 +23,14 @@
     		it('should access to a named attribute', function() {
     			expect(myJsonObj.root['_name-example']).to.equal('Root Name');
     		})
-    	})
-    	
-    })
+    	});
+
+    	describe('parse VAST XML examples', function() {
+    		it('should load an XML document', function() {
+          console.log(xmlDoc);
+    			expect(xmlDoc).to.exist;
+    		});
+    	});
+    });
 
 })();
