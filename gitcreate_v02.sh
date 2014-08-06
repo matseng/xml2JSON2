@@ -5,6 +5,9 @@
 #  $git add .
 #  $git commit -m "Initial commit"
 #  $./gitcreate_v02.sh
+
+# To set executable permission if the script doesn run:
+  # $ chmod +x gitcreate_v02.sh
  
 # This script create a new repo on github.com, then pushes to it the local repo from the current directory.
  
