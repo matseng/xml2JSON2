@@ -26,11 +26,17 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: '<%= jshint.src %>',
-      tasks: ['jshint']
+      jshint: {
+        files: '<%= jshint.src %>',
+        tasks: ['jshint']
+      },
+      other : {
+        files: ['src/**/*.js', 'lib/**/*js', 'tests/**/*Spec.js'],
+        tasks: ['jshint', 'mocha']
+      }
     },
     mocha: {
-      all: ['tests/index.html'],
+      all: ['tests/testRunner.html'],
       options: {
         run: true
       }
