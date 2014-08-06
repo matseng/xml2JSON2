@@ -25,6 +25,7 @@ module.exports = function(grunt) {
         }
       }
     },
+
     watch: {
       jshint: {
         files: '<%= jshint.src %>',
@@ -35,6 +36,7 @@ module.exports = function(grunt) {
         tasks: ['jshint', 'mocha']
       }
     },
+    
     mocha: {
       all: ['tests/testRunner.html'],
       options: {

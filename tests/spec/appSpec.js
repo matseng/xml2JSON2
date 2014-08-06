@@ -17,7 +17,6 @@
 
     		it('should have access to child properties', function() {
     			expect(myJsonObj.root.child[1]).to.equal('Child 2');
-    			console.log(myJsonObj);
     		});
 
     		it('should access to a named attribute', function() {
@@ -26,10 +25,16 @@
     	});
 
     	describe('parse VAST XML examples', function() {
+    		
     		it('should load an XML document', function() {
-          console.log(xmlDoc);
     			expect(xmlDoc).to.exist;
     		});
+    		
+    		it('should have access to the version number', function() {
+    			var vastJson = x2js.xml2json(xmlDoc);
+    			expect(vastJson.VAST._version).to.equal("3.0");
+          console.log(vastJson);
+    		})
     	});
     });
 
