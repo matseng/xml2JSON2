@@ -1,14 +1,20 @@
-TODO: condense arrays of objects with idential keys to an array of their values... 
+TODO: Customize parser to change arrays of objects with idential attributes/keys into array(s) of their values... best explained by a simple example:
+
+Given:
   <root>
   	<child type='A'>URL1</child>
   	<child type='A'>URL2</child>
   	<child type='B'>URL3</child>
-  	<child type='B'>URL4</child>
+    <child type='B'>URL4</child>
+  	<child type='C'>URL5</child>
   </root>
-  Should become a JSON (keys also converted to lowercase):
+
+Should become a condensed JSON (keys also converted to lowercase):
     myJSON.a = [URL1, URL2];
     myJSON.b = [URL3, URL4];
+    myJSON.c = [URL5];
 
+--
 
 Ad.InLine.Creatives[0].Linear.TrackingEvents.creativeView[0] = "http://....."
 Ad.InLine.Creatives[0].Linear.TrackingEvents.creativeView = [
