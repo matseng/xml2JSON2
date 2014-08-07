@@ -1,0 +1,28 @@
+TODO: condense arrays of objects with idential keys to an array of their values... 
+  <root>
+  	<child type='A'>URL1</child>
+  	<child type='A'>URL2</child>
+  	<child type='B'>URL3</child>
+  	<child type='B'>URL4</child>
+  </root>
+  Should become a JSON (keys also converted to lowercase):
+    myJSON.a = [URL1, URL2];
+    myJSON.b = [URL3, URL4];
+
+
+Ad.InLine.Creatives[0].Linear.TrackingEvents.creativeView[0] = "http://....."
+Ad.InLine.Creatives[0].Linear.TrackingEvents.creativeView = [
+	"http://...",
+	"http://....",
+	"http://..."
+]
+
+Ad.InLine.Creatives[0].Linear.TrackingEvents.mute = [
+	"http://..."
+]
+
+
+Ad.InLine.Creatives.Creative.Linear.TrackingEvents.Tracking[0] = {
+	"value" : "http://....",
+	"event" : "creativeView"
+}

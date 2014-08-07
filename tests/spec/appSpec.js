@@ -8,7 +8,7 @@
     	
     	describe('basic xml string to json examples', function() {
     		var xmlString0 = "<root>Root 0</root>";
-    		var xmlString1 = "<root name-example='Root Name'><child>Child 1</child><child>Child 2</child></root>";
+    		var xmlString1 = "<root name-example='Root Name'><child name='test'>Child 1</child><child>Child 2</child></root>";
     		var myJsonObj = x2js.xml_str2json(xmlString1);
     		
     		it('should have access to a root property', function() {
@@ -17,10 +17,12 @@
 
     		it('should have access to child properties', function() {
     			expect(myJsonObj.root.child[1]).to.equal('Child 2');
+                console.log(myJsonObj);  //logs in rendered HTML page
+
     		});
 
     		it('should access to a named attribute', function() {
-    			expect(myJsonObj.root['_name-example']).to.equal('Root Name');
+    			expect(myJsonObj.root['name-example']).to.equal('Root Name');
     		})
     	});
 
@@ -32,8 +34,8 @@
     		
     		it('should have access to the version number', function() {
     			var vastJson = x2js.xml2json(xmlDoc);
-    			expect(vastJson.VAST._version).to.equal("3.0");
-          console.log(vastJson);
+    			expect(vastJson.VAST.version).to.equal("3.0");
+                console.log(vastJson);  //logs in rendered HTML page
     		})
     	});
     });
