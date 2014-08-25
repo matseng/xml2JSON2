@@ -26,12 +26,12 @@
     	});
 
       describe('create lowercase strings as json keys', function() {
-        var xmlString = "<Root name-example='Root Name'><Child name='test'>Child 1</Child><Child>Child 2</Child></Root>";
+        var xmlString = "<Root name-example='Root Name'><ChildExample name='test'>Child 1</ChildExample><ChildExample>Child 2</ChildExample></Root>";
         var jsonObj = x2js.xml_str2json(xmlString);
-        it('show convert all xml tags and attributes to lowercase json keys', function() {
+        it('show convert the first letter all xml tags and attributes to lowercase json keys', function() {
           expect(jsonObj.Root).to.not.exist;
-          expect(jsonObj.root.child[1]).to.equal('Child 2');
-
+          expect(jsonObj.childexample).to.not.exist;
+          expect(jsonObj.root.childExample[1]).to.equal('Child 2');
         });
       });
 
