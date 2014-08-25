@@ -7,7 +7,7 @@
   $ grunt test
   [or]
   $ grunt watch
-  - NOTE: errors in appSpec.js will be silent or misleading (e.g. 3 of 3 test will pass, when you expect 4 of 5 tests to pass). Run testRunner.html to debug your tests
+  - NOTE: syntax errors in appSpec.js will be silent or misleading (e.g. 3 of 3 test will pass, when you expect 4 of 5 tests to pass). Run testRunner.html to debug your tests
 
 # To view testRunner.html in the browser (useful for debugging):
   $ python -m SimpleHTTPServer

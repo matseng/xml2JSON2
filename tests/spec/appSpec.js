@@ -26,12 +26,12 @@
     	});
 
       describe('create lowercase strings as json keys', function() {
-        // var xmlString1 = "<Root name-example='Root Name'><child name='test'>Child 1</child><child>Child 2</child></Root>";
-        var xmlString = "<Root>Root 0</Root>";
+        var xmlString = "<Root name-example='Root Name'><Child name='test'>Child 1</Child><Child>Child 2</Child></Root>";
         var jsonObj = x2js.xml_str2json(xmlString);
         it('show convert all xml tags and attributes to lowercase json keys', function() {
           expect(jsonObj.Root).to.not.exist;
-          expect(jsonObj.root).to.equal('Root 0');
+          expect(jsonObj.root.child[1]).to.equal('Child 2');
+
         });
       });
 
@@ -45,21 +45,21 @@
           </root>";
         var jsonObj = x2js.xml_str2json(xmlString2);
         console.log(jsonObj);
-        debugger
+        // debugger
         it('should condense child tags into array(s)', function() {
           expect(jsonObj).to.exist;
-          expect(jsonObj.root.a).to.equal([URL1, URL2]);
-          expect(jsonObj.root.b).to.equal([URL3, URL4]);
-          expect(jsonObj.root.c).to.equal([URL5]);
+          expect(jsonObj.root.a).to.equal(['URL1', 'URL2']);
+          expect(jsonObj.root.b).to.equal(['URL3', 'URL4']);
+          expect(jsonObj.root.c).to.equal(['URL5']);
         });
       });
 
     	describe('parse VAST XML examples', function() {
-    		it('should load an XML document', function() {
+    		xit('should load an XML document', function() {
     			expect(xmlDoc).to.exist;  //xmlDoc is a global variable => Grunfile.js => testRunner.html => xmlFileLoader.js
     		});
     		
-    		it('should have access to the version number', function() {
+    		xit('should have access to the version number', function() {
     			var vastJson = x2js.xml2json(xmlDoc);
           console.log(vastJson);  //logs in rendered HTML page
           expect(vastJson.VAST.version).to.equal("3.0");
