@@ -50,11 +50,11 @@
       describe('create a condensed json object', function() {
         var xmlString = "<VAST> \
             <ChildExamples> \
-              <ChildExampleX id='A' attr='123'>URL1</ChildExampleX> \
-              <ChildExampleX id='A' attr='123'>URL2</ChildExampleX> \
-              <ChildExampleX id='B' attr='123'>URL3</ChildExampleX> \
-              <ChildExampleX id='B' attr='123'>URL4</ChildExampleX> \
-              <ChildExampleX id='C' attr='123'>URL5</ChildExampleX> \
+              <ChildExampleX id='a1' attr='123'>URL1</ChildExampleX> \
+              <ChildExampleX id='a1' attr='123'>URL2</ChildExampleX> \
+              <ChildExampleX id='b1' attr='123'>URL3</ChildExampleX> \
+              <ChildExampleX id='b1' attr='123'>URL4</ChildExampleX> \
+              <ChildExampleX id='c1' attr='123'>URL5</ChildExampleX> \
             </ChildExamples> \
           </VAST>";
         // debugger
@@ -66,7 +66,7 @@
           expect(jsonObj).to.exist;
           // expect(jsonObj.vast.childExamples.a).to.equal(['URL1', 'URL2']);
           // expect(jsonObj.vast.childExamples.b).to.equal(['URL3', 'URL4']);
-          expect(jsonObj.vast.childExamples.c).to.equal(['URL5']);
+          expect(jsonObj.vast.childExamples.c1.value).to.equal(['URL5']);
         });
       });
 

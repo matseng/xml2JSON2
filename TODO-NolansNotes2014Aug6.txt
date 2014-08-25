@@ -24,14 +24,9 @@ Ad.InLine.Creatives[0].Linear.TrackingEvents.creativeView = [
 ]
 
 Ad.InLine.Creatives[0].Linear.TrackingEvents.mute = [
-	"http://..."
+  "http://..." 
 ]
 
-
-Ad.InLine.Creatives.Creative.Linear.TrackingEvents[0] = {
-	"value" : "http://....",
-	"event" : "creativeView"
-}
 
 --
 Mon 8/15/2014 chat with Nolan:
