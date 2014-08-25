@@ -2,11 +2,11 @@ TODO: Customize parser to change arrays of objects with idential attributes/keys
 
 Given:
   <root>
-  	<child type='A'>URL1</child>
-  	<child type='A'>URL2</child>
-  	<child type='B'>URL3</child>
+    <child type='A'>URL1</child>
+    <child type='A'>URL2</child>
+    <child type='B'>URL3</child>
     <child type='B'>URL4</child>
-  	<child type='C'>URL5</child>
+    <child type='C'>URL5</child>
   </root>
 
 Should become a condensed JSON (keys also converted to lowercase):

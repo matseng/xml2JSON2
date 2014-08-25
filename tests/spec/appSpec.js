@@ -34,7 +34,7 @@
     		
     		it('should have access to the version number', function() {
     			var vastJson = x2js.xml2json(xmlDoc);
-    			expect(vastJson.VAST.version).to.equal("3.0");
+    			expect(vastJson.VAST.version).to.equal("3.01");
                 console.log(vastJson);  //logs in rendered HTML page
     		})
     	});

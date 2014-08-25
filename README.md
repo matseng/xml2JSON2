@@ -8,4 +8,4 @@
 
 # To view testRunner.html in the browser (useful for debugging):
   $ python -m SimpleHTTPServer
-  - Then click tests/ --> testRunner.html
+  - Within the browser, navigate to localhost:8000/tests/testRunner.html
