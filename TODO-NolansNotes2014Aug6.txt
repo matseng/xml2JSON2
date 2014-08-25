@@ -28,7 +28,7 @@ Ad.InLine.Creatives[0].Linear.TrackingEvents.mute = [
 ]
 
 
-Ad.InLine.Creatives.Creative.Linear.TrackingEvents.Tracking[0] = {
+Ad.InLine.Creatives.Creative.Linear.TrackingEvents[0] = {
 	"value" : "http://....",
 	"event" : "creativeView"
 }
@@ -36,3 +36,4 @@ Ad.InLine.Creatives.Creative.Linear.TrackingEvents.Tracking[0] = {
 --
 Mon 8/15/2014 chat with Nolan:
   - cutdown size / excess code from xml2json (ie json to xml is not needed)
+  - working on
