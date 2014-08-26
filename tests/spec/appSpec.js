@@ -54,7 +54,7 @@
               <ChildExampleX event='a1'>URL2</ChildExampleX> \
               <ChildExampleX event='b1'>URL3</ChildExampleX> \
               <ChildExampleX event='b1'>URL4</ChildExampleX> \
-              <ChildExampleX event='c1'>URL5</ChildExampleX> \
+              <ChildExampleX event='c1' attr='testing'>URL5</ChildExampleX> \
             </ChildExamples> \
           </VAST>";
         // debugger
@@ -66,22 +66,25 @@
         it('should condense child tags into array(s) of object(s)', function() {
           expect(jsonObj).to.exist;
           expect(jsonObj.vast.childExamples.c1.value).to.equal('URL5');
+          expect(jsonObj.vast.childExamples.c1.attr).to.equal('testing');
           expect(jsonObj.vast.childExamples.a1[0].value).to.equal('URL1');
           expect(jsonObj.vast.childExamples.b1[1].value).to.equal('URL4');
         });
       });
 
-    	// describe('parse VAST XML examples', function() {
-    	// 	var vastJson = x2js.xml2json(xmlDoc);  //xmlDoc is a global variable => Grunfile.js => testRunner.html => xmlFileLoader.js
-     //    console.log(vastJson);  //logs in rendered HTML page
-     //    xit('should load an XML document', function() {
-     //      expect(xmlDoc).to.exist;  
-     //    });
-        
-     //    xit('should have access to the version number', function() {
-     //      expect(vastJson.VAST.version).to.equal("3.0");
-    	// 	})
-    	// });
+    	describe('parse VAST XML examples', function() {
+    		var vastJson = x2js.xml2json(xmlDoc);  //xmlDoc is a global variable => Grunfile.js => testRunner.html => xmlFileLoader.js
+        console.log(vastJson);
+        it('should load an XML document', function() {
+          expect(xmlDoc).to.exist;  
+        });
+        it('should have access to the version number', function() {
+          expect(vastJson.vast.version).to.equal("3.0");
+    		});
+        it('should have access to the second tracking event URL', function() {
+          expect(vastJson.vast.ad.inLine.creatives[8].linear.trackingEvents.creativeView[1].value).to.equal('http://216.178.47.89/api/1.0/tag/8/event/creativeView?id=2'); 
+        });
+    	});
 
     });
 
