@@ -73,7 +73,8 @@
       });
 
     	describe('parse VAST XML examples', function() {
-    		var vastJson = x2js.xml2json(xmlDoc);  //xmlDoc is a global variable => Grunfile.js => testRunner.html => xmlFileLoader.js
+    		var xmlDoc = xmlFileLoader("../tests/xmlExampleFiles/basicVastExample.xml");
+        var vastJson = x2js.xml2json(xmlDoc);  //xmlDoc is a global variable => Grunfile.js => testRunner.html => xmlFileLoader.js
         console.log(vastJson);
         it('should load an XML document', function() {
           expect(xmlDoc).to.exist;  
@@ -84,7 +85,20 @@
         it('should have access to the second tracking event URL', function() {
           expect(vastJson.vast.ad.inLine.creatives[8].linear.trackingEvents.creativeView[1].value).to.equal('http://216.178.47.89/api/1.0/tag/8/event/creativeView?id=2'); 
         });
+        it('should have access to the media file(s)', function() {
+          expect(vastJson.vast.ad.inLine.creatives[8].linear.mediaFiles['f0d1ad4d-54c9-4d10-b485-7a88996c68b2'].bitrate).to.equal('1063');
+        });
+        //NOTE: 
     	});
+
+      describe('parse another VAST example', function() {
+        var xmlDoc = xmlFileLoader("../tests/xmlExampleFiles/BasicVAST_JCP.xml");
+        var vastJson = x2js.xml2json(xmlDoc);
+        console.log(vastJson);
+        it('should have access to the media file(s)', function() {
+          expect(vastJson.vast.ad.inLine.creatives[9].linear.mediaFiles.progressive.bitrate).to.equal('400');  //NOTE: there is no 'id' field, so 'progressive' become the key
+        });
+      });
 
     });
 

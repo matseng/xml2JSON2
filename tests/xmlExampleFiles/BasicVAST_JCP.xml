@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VAST version="3.0">
+    <Ad id="ad-9">
+        <InLine>
+            <AdSystem><![CDATA[VindicoMobile]]></AdSystem>
+            <AdTitle><![CDATA[Vindico JCP]]></AdTitle>
+            <Description><![CDATA[Vindico JCP]]></Description>
+            <Impression id="Impression"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/impression]]></Impression>
+            <Creatives>
+                <Creative id="9" AdID="9" sequence="1">
+                    <Linear>
+                        <Duration>00:00:16</Duration>
+                        <TrackingEvents>
+                            <Tracking event="creativeView"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/creativeView]]></Tracking>
+                            <Tracking event="start"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/start]]></Tracking>
+                            <Tracking event="firstQuartile"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/firstQuartile]]></Tracking>
+                            <Tracking event="midpoint"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/midpoint]]></Tracking>
+                            <Tracking event="thirdQuartile"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/thirdQuartile]]></Tracking>
+                            <Tracking event="complete"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/complete]]></Tracking>
+                            <Tracking event="mute"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/mute]]></Tracking>
+                            <Tracking event="unmute"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/unmute]]></Tracking>
+                            <Tracking event="pause"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/pause]]></Tracking>
+                            <Tracking event="fullscreen"><![CDATA[http://216.178.47.89/api/1.0/tag/9/event/fullscreen]]></Tracking>
+                        </TrackingEvents>
+                        <VideoClicks>
+                            <ClickThrough><![CDATA[http://216.178.47.89/api/1.0/tag/9/clickthrough]]></ClickThrough>
+                        </VideoClicks>
+                        <MediaFiles>
+                            <MediaFile delivery="progressive" bitrate="400" width="1280" height="720" type="video/mp4"><![CDATA[http://cdn5.unicornmedia.com/now/stitched/mp4/178a3ffa-cd8c-4317-a5d8-b3b48bffc475/00000000-0000-0000-0000-000000000000/3a41c6e4-93a3-4108-8995-64ffca7b9106/ab511738-734e-404d-a6fb-361879d152aa/0/0/15/361453552/content.mp4]]></MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>
