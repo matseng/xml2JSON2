@@ -139,6 +139,43 @@
         });
       });
 
+      describe("Iterate over each vast xml file and test at least 1 field", function() {
+        function getVastJsonFromId(id) {
+          var url = 'http://216.178.47.89/api/1.0/tag/' + id;
+          return $.ajax({
+            type: 'GET',
+            url: 'http://216.178.47.89/api/1.0/tag/1',
+            dataType: 'xml'
+          })
+          .then(function(xmlDoc) {  //NOTE: Use '.then' instead of '.done'
+            var vastJson = x2js.xml2json(xmlDoc);
+            var dfd = new jQuery.Deferred();
+            return dfd.resolve(vastJson);
+          });
+        }
+
+        it('should have  ', function(done) {        
+          var request = $.ajax({
+            type: 'GET',
+            url: 'http://216.178.47.89/api/1.0/tags?type=vast',
+            dataType: 'json'
+          })
+          .done(function(data) {
+            for(var i = 0; i < data.tags.length; i++) {
+              var vastJsonPromise = getVastJsonFromId(data.tags[i].id);
+              vastJsonPromise.then(function(vastJson) {
+                console.log(this, vastJson);
+                expect(vastJson.vast).to.exist;
+              }.bind(data.tags[i].id));
+            }
+            done();
+          })
+          .error(function(jqXHR, textstatus, err) {
+            console.log(jqXHR, textstatus, err);
+          })
+        });
+      });
+
     });
 
 })();
