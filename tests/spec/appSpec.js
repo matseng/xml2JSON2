@@ -43,44 +43,46 @@
         it('show convert the first letter all xml tags and attributes to lowercase json keys', function() {
           expect(jsonObj.VAST).to.not.exist;
           expect(jsonObj.vast.childexample).to.not.exist;
-          expect(jsonObj.vast.childExample[1].__text).to.equal('URL2');
+          expect(jsonObj.vast.childExample[1].value).to.equal('URL2');
         });
       });
 
       describe('create a condensed json object', function() {
         var xmlString = "<VAST> \
             <ChildExamples> \
-              <ChildExampleX id='a1' attr='123'>URL1</ChildExampleX> \
-              <ChildExampleX id='a1' attr='123'>URL2</ChildExampleX> \
-              <ChildExampleX id='b1' attr='123'>URL3</ChildExampleX> \
-              <ChildExampleX id='b1' attr='123'>URL4</ChildExampleX> \
-              <ChildExampleX id='c1' attr='123'>URL5</ChildExampleX> \
+              <ChildExampleX event='a1'>URL1</ChildExampleX> \
+              <ChildExampleX event='a1'>URL2</ChildExampleX> \
+              <ChildExampleX event='b1'>URL3</ChildExampleX> \
+              <ChildExampleX event='b1'>URL4</ChildExampleX> \
+              <ChildExampleX event='c1'>URL5</ChildExampleX> \
             </ChildExamples> \
           </VAST>";
         // debugger
+        
         var jsonObj = x2js.xml_str2json(xmlString);
+
         console.log(jsonObj);
-        console.log(jsonObj.vast.childExamples);
         // debugger
-        it('should condense child tags into array(s)', function() {
+        it('should condense child tags into array(s) of object(s)', function() {
           expect(jsonObj).to.exist;
-          // expect(jsonObj.vast.childExamples.a).to.equal(['URL1', 'URL2']);
-          // expect(jsonObj.vast.childExamples.b).to.equal(['URL3', 'URL4']);
-          expect(jsonObj.vast.childExamples.c1.value).to.equal(['URL5']);
+          expect(jsonObj.vast.childExamples.c1.value).to.equal('URL5');
+          expect(jsonObj.vast.childExamples.a1[0].value).to.equal('URL1');
+          expect(jsonObj.vast.childExamples.b1[1].value).to.equal('URL4');
         });
       });
 
-    	describe('parse VAST XML examples', function() {
-    		var vastJson = x2js.xml2json(xmlDoc);  //xmlDoc is a global variable => Grunfile.js => testRunner.html => xmlFileLoader.js
-        console.log(vastJson);  //logs in rendered HTML page
-        xit('should load an XML document', function() {
-          expect(xmlDoc).to.exist;  
-        });
+    	// describe('parse VAST XML examples', function() {
+    	// 	var vastJson = x2js.xml2json(xmlDoc);  //xmlDoc is a global variable => Grunfile.js => testRunner.html => xmlFileLoader.js
+     //    console.log(vastJson);  //logs in rendered HTML page
+     //    xit('should load an XML document', function() {
+     //      expect(xmlDoc).to.exist;  
+     //    });
         
-        xit('should have access to the version number', function() {
-          expect(vastJson.VAST.version).to.equal("3.0");
-    		})
-    	});
+     //    xit('should have access to the version number', function() {
+     //      expect(vastJson.VAST.version).to.equal("3.0");
+    	// 	})
+    	// });
+
     });
 
 })();
