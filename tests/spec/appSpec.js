@@ -83,6 +83,7 @@
           expect(vastJson.vast.version).to.equal("3.0");
     		});
         it('should have access to the second tracking event URL', function() {
+          expect(vastJson.vast.ad.inLine.creatives.creative.linear.trackingEvents.start.value).to.equal('http://216.178.47.89/api/1.0/tag/8/event/start'); 
           expect(vastJson.vast.ad.inLine.creatives.creative.linear.trackingEvents.creativeView[1].value).to.equal('http://216.178.47.89/api/1.0/tag/8/event/creativeView?id=2'); 
         });
         it('should have access to the media file(s)', function() {
@@ -96,7 +97,8 @@
         var vastJson = x2js.xml2json(xmlDoc);
         console.log(vastJson);
         it('should have access to the media file(s)', function() {
-          expect(vastJson.vast.ad.inLine.creatives.creative.linear.mediaFiles.mediaFile.bitrate).to.equal('400');  //NOTE: there is no 'id' field, so 'progressive' become the key
+          expect(vastJson.vast.ad.inLine.creatives.creative.linear.mediaFiles.mediaFile.bitrate).to.equal('400');  
+          expect(vastJson.vast.ad.inLine.creatives.creative.linear.duration).to.equal(16);  //NOTE: The value '00:00:16' has been converted to 16 integer seconds
         });
       });
 

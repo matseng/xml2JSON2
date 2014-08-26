@@ -32,3 +32,6 @@ Ad.InLine.Creatives[0].Linear.TrackingEvents.mute = [
 Mon 8/15/2014 chat with Nolan:
   - cutdown size / excess code from xml2json (ie json to xml is not needed)
   - working on
+
+--
+view-source:http://216.178.47.89/api/1.0/tags?type=vast
