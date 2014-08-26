@@ -102,24 +102,41 @@
         });
       });
 
-      describe('Use Hawkeye API to download and test example VAST and VPAID files', function() {
-        var request = $.ajax({
-          type: 'GET',
-          url: 'http://216.178.47.89/api/1.0/tags?type=vast',
-          crossDomain: true,
-          dataType: 'jsonp',
-          jsonp: 'false',
-          contentType: "application/json",
+      describe('Use an ajax call to HAWK API to test an example VAST xml file', function() {
+        it('should have a companion ad', function(done) {
+          var vastJson;
+          var request = $.ajax({
+            type: 'GET',
+            url: 'http://216.178.47.89/api/1.0/tag/1',
+            dataType: 'xml'
+          })
+          .done(function(xmlDoc) {
+            vastJson = x2js.xml2json(xmlDoc);
+            console.log(vastJson);
+            expect(vastJson.vast.ad.inLine.creatives.creative[1].companionAds.companion).to.exist;
+            done();
+          })
+          .error(function(jqXHR, textstatus, err) {
+            console.log(jqXHR, textstatus, err);
+          });
         });
+      });
 
-        request.done(function(data) {
-          console.log(data);
-        })
-        .error(function(err) {
-          console.log(err);
-        })
-
-
+      describe("Download json object that contains id's for example vast xml files", function() {
+        it('should have at least 16 different vast ids', function(done) {        
+          var request = $.ajax({
+            type: 'GET',
+            url: 'http://216.178.47.89/api/1.0/tags?type=vast',
+            dataType: 'json'
+          })
+          .done(function(data) {
+            expect((data.tags.length >= 16)).to.equal(true);
+            done();
+          })
+          .error(function(jqXHR, textstatus, err) {
+            console.log(jqXHR, textstatus, err);
+          })
+        });
       });
 
     });
