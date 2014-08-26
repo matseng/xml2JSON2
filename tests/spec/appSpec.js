@@ -102,6 +102,26 @@
         });
       });
 
+      describe('Use Hawkeye API to download and test example VAST and VPAID files', function() {
+        var request = $.ajax({
+          type: 'GET',
+          url: 'http://216.178.47.89/api/1.0/tags?type=vast',
+          crossDomain: true,
+          dataType: 'jsonp',
+          jsonp: 'false',
+          contentType: "application/json",
+        });
+
+        request.done(function(data) {
+          console.log(data);
+        })
+        .error(function(err) {
+          console.log(err);
+        })
+
+
+      });
+
     });
 
 })();
