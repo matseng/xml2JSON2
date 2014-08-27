@@ -120,14 +120,14 @@
       });
 
       describe("Download json object that contains id's for example vast xml files", function() {
-        it('should have at least 16 different vast ids', function(done) {        
+        it('should have the stated number of tags (i.e. example vast xml files)', function(done) {        
           var request = $.ajax({
             type: 'GET',
             url: 'http://216.178.47.89/api/1.0/tags?type=vast',
             dataType: 'json'
           })
           .done(function(data) {
-            expect((data.tags.length >= 16)).to.equal(true);
+            expect((data.tags.length)).to.equal(data.count);
             done();
           })
           .error(function(jqXHR, textstatus, err) {
@@ -204,6 +204,24 @@
           })
           .error(function(jqXHR, textstatus, err) {
             console.log(jqXHR, textstatus, err);
+          })
+        });
+      });
+
+      describe('List of example VPAID add', function(done) {
+        it('should have the stated number of VPAID tags', function() {
+          $.ajax({
+            type: 'GET',
+            url: 'http://216.178.47.89/api/1.0/tags?cat=vpaid'
+          })
+          .then(function(data){
+            console.log(data);
+            expect(data.tags.length).to.equal(data.count);
+            done();
+          })
+          .fail(function(jqXHR, textstatus, err) {
+            console.log(jqXHR, textstatus, err);
+            done();
           })
         });
       });

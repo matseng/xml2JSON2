@@ -13,3 +13,5 @@
   $ python -m SimpleHTTPServer
   - Within the browser, navigate to localhost:8000/tests/testRunner.html
   - add debugger statements in appSpec.js to set a breakpoint
+
+# Vindico's Hawkeye API page for example VAST / VPAID data: http://216.178.47.89/api
