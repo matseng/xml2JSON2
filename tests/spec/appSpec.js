@@ -156,6 +156,9 @@
           var lookup = {
             1 : {str: 'vast.version',
                 val: '2.0'},
+            2 : {str: 'vast.ad.inLine.creatives.creative',  //TRYING TO WRITE BETTER TESTS HERE... more flexible tests
+                val: 2,
+                cb: function(obj) {return obj.length}},
             82 : {str: 'vast.ad.inLine.adTitle',
                 val: "Colgate_Breaker_CLDC6258000take4_mp4_352x198_16-9.mp4"},
           };
@@ -169,17 +172,23 @@
               var vastJsonPromise = getVastJsonFromId(data.tags[i].id);
               vastJsonPromise.then(function(vastJson) {
                 var urlId = this;
+                console.log(urlId, vastJson);
                 expect(vastJson.vast).to.exist;
                 if(lookup[urlId]) {
                   try {
-                    expect(Dottie.get(vastJson, lookup[urlId].str) === lookup[urlId].val).to.equal(true);
+                    if(lookup[urlId].cb) {
+                      var callback = lookup[urlId].cb;
+                      expect(callback(Dottie.get(vastJson, lookup[urlId].str)) === lookup[urlId].val).to.equal(true); 
+                    } else {
+                      expect(Dottie.get(vastJson, lookup[urlId].str) === lookup[urlId].val).to.equal(true);
+                    }
                   } catch(err) {
-                    console.log("Error with url id:", urlId);
+                    console.log("Error with url id:", urlId, err);
                     throw urlId;
                   }
                 }
                 if(urlId === data.tags[data.tags.length - 1].id) {
-                  console.log('here', i);
+                  console.log('Completed testing of VAST examples');
                   done();
                 }
               }.bind(data.tags[i].id));
