@@ -57,12 +57,10 @@
               <Tracking event='c1' attr='testing'>URL5</Tracking> \
             </TrackingEvents> \
           </VAST>";
-        // debugger
         
         var jsonObj = x2js.xml_str2json(xmlString);
 
         console.log(jsonObj);
-        // debugger
         it('should condense child tags into array(s) of object(s)', function() {
           expect(jsonObj).to.exist;
           expect(jsonObj.vast.trackingEvents.c1.value).to.equal('URL5');
@@ -89,7 +87,6 @@
         it('should have access to the media file(s)', function() {
           expect(vastJson.vast.ad.inLine.creatives.creative.linear.mediaFiles.mediaFile.bitrate).to.equal('1063');
         });
-        //NOTE: 
     	});
 
       describe('parse another VAST example', function() {
@@ -154,7 +151,14 @@
           });
         }
 
-        it('should have  ', function(done) {        
+        it('should have json lookups that correspond to correct xml values', function(done) { 
+          this.timeout(10000);       
+          var lookup = {
+            1 : {str: 'vast.version',
+                val: '2.0'},
+            82 : {str: 'vast.ad.inLine.adTitle',
+                val: "Colgate_Breaker_CLDC6258000take4_mp4_352x198_16-9.mp4"},
+          };
           var request = $.ajax({
             type: 'GET',
             url: 'http://216.178.47.89/api/1.0/tags?type=vast',
@@ -164,11 +168,22 @@
             for(var i = 0; i < data.tags.length; i++) {
               var vastJsonPromise = getVastJsonFromId(data.tags[i].id);
               vastJsonPromise.then(function(vastJson) {
-                console.log(this, vastJson);
+                var urlId = this;
                 expect(vastJson.vast).to.exist;
+                if(lookup[urlId]) {
+                  try {
+                    expect(Dottie.get(vastJson, lookup[urlId].str) === lookup[urlId].val).to.equal(true);
+                  } catch(err) {
+                    console.log("Error with url id:", urlId);
+                    throw urlId;
+                  }
+                }
+                if(urlId === data.tags[data.tags.length - 1].id) {
+                  console.log('here', i);
+                  done();
+                }
               }.bind(data.tags[i].id));
             }
-            done();
           })
           .error(function(jqXHR, textstatus, err) {
             console.log(jqXHR, textstatus, err);
