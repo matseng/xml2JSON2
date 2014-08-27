@@ -136,20 +136,25 @@
         });
       });
 
+      function getVastJsonFromId(id) {
+        var url = 'http://216.178.47.89/api/1.0/tag/' + id;
+        return $.ajax({
+          type: 'GET',
+          url: 'http://216.178.47.89/api/1.0/tag/1',
+          dataType: 'xml'
+        })
+        .then(function(xmlDoc) {  //NOTE: Use '.then' instead of '.done'
+          var vastJson = x2js.xml2json(xmlDoc);
+          var dfd = new jQuery.Deferred();
+          return dfd.resolve(vastJson);
+        });
+      };
+
+      function testVastJson(vastJson, tests) {
+
+      };
+
       describe("Iterate over each vast xml file and test at least 1 field", function() {
-        function getVastJsonFromId(id) {
-          var url = 'http://216.178.47.89/api/1.0/tag/' + id;
-          return $.ajax({
-            type: 'GET',
-            url: 'http://216.178.47.89/api/1.0/tag/1',
-            dataType: 'xml'
-          })
-          .then(function(xmlDoc) {  //NOTE: Use '.then' instead of '.done'
-            var vastJson = x2js.xml2json(xmlDoc);
-            var dfd = new jQuery.Deferred();
-            return dfd.resolve(vastJson);
-          });
-        }
 
         it('should have json lookups that correspond to correct xml parameters and values', function(done) { 
           this.timeout(10000);       
@@ -175,7 +180,9 @@
           .done(function(data) {
             for(var i = 0; i < data.tags.length; i++) {
               var vastJsonPromise = getVastJsonFromId(data.tags[i].id);
-              vastJsonPromise.then(function(vastJson) {
+              vastJsonPromise.then(
+                //TODO: re-factor into testVastJson as above
+              function(vastJson) {
                 var urlId = this;
                 console.log(urlId, vastJson);
                 expect(vastJson.vast).to.exist;
@@ -200,6 +207,7 @@
                   done();
                 }
               }.bind(data.tags[i].id));
+
             }
           })
           .error(function(jqXHR, textstatus, err) {
@@ -208,21 +216,33 @@
         });
       });
 
-      describe('List of example VPAID add', function(done) {
+      describe('Get list of example VPAID ads', function(done) {
         it('should have the stated number of VPAID tags', function() {
-          $.ajax({
+          var vpaidList = $.ajax({
             type: 'GET',
             url: 'http://216.178.47.89/api/1.0/tags?cat=vpaid'
-          })
-          .then(function(data){
+          });
+          vpaidList.then(function(data){
             console.log(data);
             expect(data.tags.length).to.equal(data.count);
-            done();
+            // done();
           })
           .fail(function(jqXHR, textstatus, err) {
             console.log(jqXHR, textstatus, err);
             done();
-          })
+          });
+
+          vpaidList.then(function(list) {
+            for(var i = 0; i < list.tags.length; i++) {
+              var id = list.tags[i].id;
+              console.log(id);
+              getVastJsonFromId(id)
+              .then(function(vpaidJson) {
+                var id = this;
+                console.log(id, vpaidJson);
+              }.bind(id));
+            }
+          });
         });
       });
 
