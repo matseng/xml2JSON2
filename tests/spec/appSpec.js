@@ -143,14 +143,14 @@
           url: url,
           dataType: 'xml'
         })
-        .then(function(xmlDoc) {  //NOTE: Use '.then' instead of '.done'
+        .then(function(xmlDoc) {  //NOTE: Use '.then' instead of '.done' in order to return a promise
           var vastJson = x2js.xml2json(xmlDoc);
           var dfd = new jQuery.Deferred();
           return dfd.resolve(vastJson);
         });
       };
 
-      Function.prototype.myBind = function(context) {  //NOTE: Had to re-write bind because bind is NOT currently supported by PhantomJS
+      Function.prototype.myBind = function(context) {  //NOTE: Had to re-write as myBind because bind is NOT currently supported by PhantomJS
         var func = this;
         return function() {
           var args = Array.prototype.slice.call(arguments);
@@ -158,10 +158,24 @@
         }
       };
 
-      function expectVastJson(vastJson, urlId, testCases) {
-        if(testCases[urlId]) {
-          var currTestArray = Array.isArray(testCases[urlId]) ? testCases[urlId] : [testCases[urlId]];
-          for(var key in currTestArray)
+      function expectEachTag(jsonTags, testCases, done) {
+        for(var i = 0; i < jsonTags.tags.length; i++) {
+          getVastJsonFromId(jsonTags.tags[i].id)
+          .then(function(vastJson) {
+            var urlId = this;
+            expectTagJson(vastJson, testCases[urlId], urlId);
+            if(urlId === jsonTags.tags[jsonTags.tags.length - 1].id) {
+              console.log('Completed testing of VAST examples');
+              done();
+            }
+          }.myBind(jsonTags.tags[i].id));
+        }
+      };
+
+      function expectTagJson(vastJson, test, urlId) {
+        if(test) {
+          var currTestArray = Array.isArray(test) ? test : [test];
+          for(var key in currTestArray) {
             var test = currTestArray[key];
             try {
               if(test.cb) {
@@ -174,6 +188,7 @@
               console.log("Error with url id:", urlId, err);
               throw err.message;
             }
+          }
         }
       };
 
@@ -200,65 +215,48 @@
             url: 'http://216.178.47.89/api/1.0/tags?type=vast',
             dataType: 'json'
           })
-          .done(function(jsonTags) {
-            for(var i = 0; i < jsonTags.tags.length; i++) {
-              getVastJsonFromId(jsonTags.tags[i].id)
-              .then(function(vastJson) {  //TODO: re-factor into testVastJson as above
-                var urlId = this;
-                console.log(urlId, vastJson);
-                expectVastJson(vastJson, urlId, testCases);
-                if(urlId === jsonTags.tags[jsonTags.tags.length - 1].id) {
-                  console.log('Completed testing of VAST examples');
-                  done();
-                }
-              }.myBind(jsonTags.tags[i].id));
-            }
+          .done(function(vastJsonTags) {
+            expectEachTag(vastJsonTags, testCases, done);
           })
-          .error(function(jqXHR, textstatus, err) {
+          .fail(function(jqXHR, textstatus, err) {
             console.log(jqXHR, textstatus, err);
           });
         });
       });
 
-      // describe('Get list of example VPAID ads', function(done) {
-      //   var vpaidList;
-      //   var testCases = {
-      //     13 : [{str: 'vast.ad.inLine.creatives.creative',
-      //       cb: function(obj) {console.log('here', obj.length); return obj.length},
-      //       val: 2},
-      //       {str: 'vast.ad.id',
-      //       val: "ad-13"}]
-      //   };
-      //   it('should have the stated number of VPAID tags', function() {
-      //     vpaidList = $.ajax({
-      //       type: 'GET',
-      //       url: 'http://216.178.47.89/api/1.0/tags?cat=vpaid'
-      //     });
-      //     vpaidList.then(function(data){
-      //       console.log(data);
-      //       expect(data.tags.length).to.equal(data.count);
-      //       // done();
-      //     })
-      //     .fail(function(jqXHR, textstatus, err) {
-      //       console.log(jqXHR, textstatus, err);
-      //       done();
-      //     });
-      //   });
-
-      //   it('should have json lookups that correspond to correct xml parameters and values', function() {
-      //     vpaidList.then(function(list) {
-      //       for(var i = 0; i < list.tags.length; i++) {
-      //         var urlId = list.tags[i].id;
-      //         getVastJsonFromId(urlId)
-      //         .then(function(vpaidJson) {
-      //           var urlId = this;
-      //           console.log('vpaid: ', urlId, vpaidJson);
-      //           expectVastJson(vpaidJson, urlId, testCases);
-      //         }.myBind(urlId));
-      //       }
-      //     });
-      //   });
-      // });
+      describe('Get list of example VPAID ads', function() {
+        var vpaidList;
+        var testCases = {
+          13 : [{str: 'vast.ad.inLine.creatives.creative.linear.trackingEvents.fullscreen.value',
+            cb: function(obj) {return obj;},
+            val: 'http://216.178.47.89/api/1.0/tag/13/event/fullscreen'},
+            {str: 'vast.ad.id',
+            val: "ad-13"}]
+        };
+        it('should have the stated number of VPAID tags', function(done) {
+          vpaidList = $.ajax({
+            type: 'GET',
+            url: 'http://216.178.47.89/api/1.0/tags?cat=vpaid'
+          });
+          vpaidList.then(function(vpaidJsonTags){
+            console.log(vpaidJsonTags);
+            expect(vpaidJsonTags.tags.length).to.equal(vpaidJsonTags.count);
+            done();
+          })
+          .fail(function(jqXHR, textstatus, err) {
+            console.log(jqXHR, textstatus, err);
+            done();
+          });
+        });
+        it('should have json lookups that correspond to correct xml parameters and values', function(done) {
+          vpaidList.then(function(vpaidJsonTags) {
+            expectEachTag(vpaidJsonTags, testCases, done);
+          })
+          .fail(function(jqXHR, textstatus, err) {
+            console.log(jqXHR, textstatus, err);
+          });
+        });
+      });
 
     });
 
