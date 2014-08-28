@@ -140,7 +140,8 @@
         var url = 'http://216.178.47.89/api/1.0/tag/' + id;
         return $.ajax({
           type: 'GET',
-          url: 'http://216.178.47.89/api/1.0/tag/1',
+          // url: 'http://216.178.47.89/api/1.0/tag/1',
+          url: url,
           dataType: 'xml'
         })
         .then(function(xmlDoc) {  //NOTE: Use '.then' instead of '.done'
@@ -159,6 +160,32 @@
         }
       };
 
+      function expectVastJson(vastJson, tests) {
+        var urlId = this;
+        console.log(this, urlId, vastJson);
+        if(lookup[urlId]) {
+          var testsArray = Array.isArray(lookup[urlId]) ? lookup[urlId] : [lookup[urlId]];
+          for(var key in testsArray)
+            var test = testsArray[key];
+            try {
+              if(test.cb) {
+                var callback = test.cb;
+                expect(callback(Dottie.get(vastJson, test.str))).to.equal(test.val);
+              } else {
+                expect(Dottie.get(vastJson, test.str)).to.equal(test.val);
+              }
+            } catch(err) {
+              console.log("Error with url id:", urlId, err);
+              throw err.message;
+            }
+        }
+        if(urlId === data.tags[data.tags.length - 1].id) {
+          console.log('Completed testing of VAST examples');
+          done();
+        }
+      };
+
+
       describe("Iterate over each vast xml file and test at least 1 field", function() {
         it('should have json lookups that correspond to correct xml parameters and values', function(done) {
           this.timeout(10000);
@@ -169,12 +196,13 @@
                 val: 2,
                 cb: function(obj) {return obj.length}},
                 {str: 'vast.ad.id',
-                val: "333825"}],
-            3: {str: 'vast.ad.inLine.impression',
-                cb: function(obj) { return obj[1].id;},
-                val: "ADTRICITYVAST"},
-            82 : {str: 'vast.ad.inLine.adTitle',
-                val: "Colgate_Breaker_CLDC6258000take4_mp4_352x198_16-9.mp4"},
+                val: "360674"}],
+            3: {str: 'vast.ad.inLine.creatives.creative',
+                cb: function(obj) { return obj[0].linear.duration;},
+                val: 15},
+            82: {str: 'vast.ad.inLine.creatives.creative',
+                cb: function(obj) { return obj[0].linear.duration;},
+                val: 22},
           };
           var request = $.ajax({
             type: 'GET',
@@ -183,8 +211,11 @@
           })
           .done(function(data) {
             for(var i = 0; i < data.tags.length; i++) {
-              var vastJsonPromise = getVastJsonFromId(data.tags[i].id);
-              vastJsonPromise.then(function(vastJson) {  //TODO: re-factor into testVastJson as above
+              getVastJsonFromId(data.tags[i].id)
+              .then(
+              // vastJsonPromise.then(expectVastJson(vastJson, tests).myBind(data.tags[i].id));
+
+              function(vastJson) {  //TODO: re-factor into testVastJson as above
                 var urlId = this;
                 console.log(this, urlId, vastJson);
                 if(lookup[urlId]) {
