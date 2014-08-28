@@ -150,14 +150,18 @@
         });
       };
 
-      function testVastJson(vastJson, tests) {
-
+      //NOTE: Had to re-write bind because bind is NOT currently supported by PhantomJS
+      Function.prototype.myBind = function(context) {
+        var func = this;
+        return function() {
+          var args = Array.prototype.slice.call(arguments);
+          return func.apply(context, args);
+        }
       };
 
       describe("Iterate over each vast xml file and test at least 1 field", function() {
-
-        it('should have json lookups that correspond to correct xml parameters and values', function(done) { 
-          this.timeout(10000);       
+        it('should have json lookups that correspond to correct xml parameters and values', function(done) {
+          this.timeout(10000);
           var lookup = {
             1 : {str: 'vast.version',
                 val: '2.0'},
@@ -180,12 +184,9 @@
           .done(function(data) {
             for(var i = 0; i < data.tags.length; i++) {
               var vastJsonPromise = getVastJsonFromId(data.tags[i].id);
-              vastJsonPromise.then(
-                //TODO: re-factor into testVastJson as above
-              function(vastJson) {
+              vastJsonPromise.then(function(vastJson) {  //TODO: re-factor into testVastJson as above
                 var urlId = this;
-                console.log(urlId, vastJson);
-                expect(vastJson.vast).to.exist;
+                console.log(this, urlId, vastJson);
                 if(lookup[urlId]) {
                   var testsArray = Array.isArray(lookup[urlId]) ? lookup[urlId] : [lookup[urlId]];
                   for(var key in testsArray)
@@ -206,13 +207,12 @@
                   console.log('Completed testing of VAST examples');
                   done();
                 }
-              }.bind(data.tags[i].id));
-
+              }.myBind(data.tags[i].id));
             }
           })
           .error(function(jqXHR, textstatus, err) {
             console.log(jqXHR, textstatus, err);
-          })
+          });
         });
       });
 
