@@ -124,7 +124,7 @@
           .done(function(xmlDoc) {
             vastJson = x2js.xml2json(xmlDoc);
             console.log(vastJson);
-            expect(vastJson.vast.ad.inLine.creatives.creative[1].companionAds.companion).to.exist;
+            expect(vastJson.vast.ad.inline.creatives.creative[1].companionads.companion).to.exist;
             done();
           })
           .error(function(jqXHR, textstatus, err) {
@@ -206,7 +206,7 @@
         }
       };
 
-      describe("Iterate over each vast xml file and test at least 1 field", function() {
+      describe("Iterate over each vast xml file and apply tests", function() {
         it('should have json lookups that correspond to correct xml parameters and values', function(done) {
           this.timeout(10000);
           var testCases = {
@@ -217,10 +217,10 @@
               val: 5},
               {str: 'vast.ad.id',
               val: "360674"}],
-            3: {str: 'vast.ad.inLine.creatives.creative',
+            3: {str: 'vast.ad.inline.creatives.creative',
                 cb: function(obj) { return obj[0].linear.duration;},
                 val: 15},
-            82: {str: 'vast.ad.inLine.creatives.creative',
+            82: {str: 'vast.ad.inline.creatives.creative',
                 cb: function(obj) { return obj[0].linear.duration;},
                 val: 22},
           };
@@ -241,7 +241,7 @@
       describe('Get list of example VPAID ads', function() {
         var vpaidList;
         var testCases = {
-          13 : [{str: 'vast.ad.inLine.creatives.creative.linear.trackingEvents.fullscreen.value',
+          13 : [{str: 'vast.ad.inline.creatives.creative.linear.trackingevents.fullscreen.value',
             cb: function(obj) {return obj;},
             val: 'http://216.178.47.89/api/1.0/tag/13/event/fullscreen'},
             {str: 'vast.ad.id',
