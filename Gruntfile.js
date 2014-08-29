@@ -29,18 +29,19 @@ module.exports = function(grunt) {
     watch: {
       jshint: {
         files: '<%= jshint.src %>',
-        tasks: ['mocha', 'jshint']
+        tasks: ['jshint']
       },
       other : {
         files: ['src/**/*.js', 'lib/**/*js', 'tests/**/*Spec.js'],
-        tasks: ['jshint']
+        tasks: ['mocha']
       }
     },
     
     mocha: {
       all: ['tests/testRunner.html'],
       options: {
-        run: true
+        run: true,
+        bail: true
       }
     }
   });
@@ -52,6 +53,5 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'jshint');
   grunt.registerTask('test', 'mocha');
   grunt.registerTask('watch2', ['mocha', 'watch']);
-
 
 };
