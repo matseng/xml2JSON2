@@ -217,14 +217,24 @@
             1: [{cb: function(obj) {return obj.vast.version;},
                 val: '2.0'},
                 {cb: function(obj) {return obj.vast.ad.inline.creatives.creative[0].linear.duration;},
-                val: 15}],
+                val: 15},
+                {cb: function(obj) {return obj.vast.ad.inline.creatives.creative[0].linear.mediafiles.mediafile.bitrate;},
+                val: '400'}],
             2: [{cb: function(obj) {return obj.vast.ad.wrapper.impression.length;},
                 val: 5},
-                {cb: function(obj) { return obj.vast.ad.id},
+                {cb: function(obj) {return obj.vast.ad.id},
                 val: "360674"}],
-            3: {str: '',
-                cb: function(obj) { return obj.vast.ad.inline.creatives.creative[0].linear.duration;},
+            3: [{cb: function(obj) {return obj.vast.ad.inline.creatives.creative[0].linear.duration;},
                 val: 15},
+                {cb: function(obj) {return obj.vast.ad.inline.creatives.creative[0].linear.mediafiles.mediafile.value;},
+                val:'http://once.unicornmedia.com/now/od/auto/178a3ffa-cd8c-4317-a5d8-b3b48bffc475/f0d1ad4d-54c9-4d10-b485-7a88996c68b2/GolfDemo15/content.once'}],
+            4: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative[1].companionads},
+                val: ''},
+            5: {cb: function(obj) {return obj.vast.ad.wrapper.creatives.creative.linear.videoclicks.clicktracking[0]},
+              val: 'http://216.178.47.89/api/1.0/tag/5/event/clicktracking?sequence=1'},
+            6: {cb: function(obj) {return obj.vast.ad[0].inline.creatives.creative.linear.trackingevents.creativeview.value},
+              val: 'http://216.178.47.89/api/1.0/tag/6/event/creativeView?adid=1&sequence=1'},
+
             82: {cb: function(obj) { return obj.vast.ad.inline.creatives.creative[0].linear.duration;},
                 val: 22},
           };
@@ -245,10 +255,9 @@
       xdescribe('Get list of example VPAID ads', function() {
         var vpaidList;
         var testCases = {
-          13 : [{str: 'vast.ad.inline.creatives.creative.linear.trackingevents.fullscreen.value',
-            cb: function(obj) {return obj;},
+          13: [{cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.trackingevents.fullscreen.value;},
             val: 'http://216.178.47.89/api/1.0/tag/13/event/fullscreen'},
-            {str: 'vast.ad.id',
+            {cb: function(obj) {return obj.vast.ad.id;},
             val: "ad-13"}]
         };
         it('should have the stated number of VPAID tags', function(done) {
