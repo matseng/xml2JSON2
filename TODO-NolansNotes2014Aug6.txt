@@ -37,3 +37,6 @@ Mon 8/15/2014 chat with Nolan:
 view-source:http://216.178.47.89/api/1.0/tags?type=vast
 --
 Focus on tracking and media files
+--
+For both vast and paid, the following product different results:
+  http://216.178.47.89/tags (select vpaid from dropdown) vs. 'http://216.178.47.89/api/1.0/tags?cat=vpaid'

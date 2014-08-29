@@ -207,7 +207,10 @@
               throw err.message;
             }
           }
-        }
+        } 
+        // else {
+        //   expect(test).to.exist;
+        // }
       };
 
       describe("Iterate over each vast xml file and apply tests", function() {
@@ -284,7 +287,24 @@
             val: 'http://216.178.47.89/api/1.0/tag/16/event/mute'},
           17: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.value},
             val: 'http://216.178.47.89/files/selector.js'},
-            
+          18: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.value},
+            val: 'http://216.178.47.89/files/eventDebug.js?v=0.1'},
+          19: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.value},
+            val: 'http://216.178.47.89/files/tweetBar.js?v=0.1'},
+          45: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.videoclicks.clickthrough},
+            val: 'http://216.178.47.89/api/1.0/tag/45/clickthrough'},
+          60: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.apiframework},
+            val: 'VPAID'},
+          63: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.apiframework},
+            val: 'VPAID'},  // 60 and 63 appear to be duplicate files
+          64: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.AdParameters.split(',').length},
+            val: 9},
+          65: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.value},
+            val: 'http://216.178.47.89/files/telemetry_test.js'},
+          66: [{cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.AdParameters.xmlEncoded},
+            val: 'true'},
+            {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.AdParameters.spikeDom},
+            val: 'spc--cehhehbdjebfnegfeeeghhne--vast2js.telemetryverification.net'}]
         };
         it('should have the stated number of VPAID tags', function(done) {
           vpaidList = $.ajax({
