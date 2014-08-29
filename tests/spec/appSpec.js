@@ -201,12 +201,7 @@
           for(var key in currTestArray) {
             var test = currTestArray[key];
             try {
-              if(test.cb) {
-                var callback = test.cb;
-                expect(callback(Dottie.get(vastJson, test.str))).to.equal(test.val);
-              } else {
-                expect(Dottie.get(vastJson, test.str)).to.equal(test.val);
-              }
+              expect(test.cb(vastJson)).to.equal(test.val);
             } catch(err) {
               console.log("Error with url id:", urlId, err);
               throw err.message;
@@ -219,21 +214,18 @@
         it('should have json lookups that correspond to correct xml parameters and values', function(done) {
           this.timeout(10000);
           var testCases = {
-            1 : [{str: 'vast.version',
+            1: [{cb: function(obj) {return obj.vast.version;},
                 val: '2.0'},
-                {str:'vast.ad.inline.creatives.creative',
-                cb: function(obj) {return obj[0].linear.duration;},
+                {cb: function(obj) {return obj.vast.ad.inline.creatives.creative[0].linear.duration;},
                 val: 15}],
-            2 : [{str: 'vast.ad.wrapper.impression',
-              cb: function(obj) {return obj.length;},
-              val: 5},
-              {str: 'vast.ad.id',
-              val: "360674"}],
-            3: {str: 'vast.ad.inline.creatives.creative',
-                cb: function(obj) { return obj[0].linear.duration;},
+            2: [{cb: function(obj) {return obj.vast.ad.wrapper.impression.length;},
+                val: 5},
+                {cb: function(obj) { return obj.vast.ad.id},
+                val: "360674"}],
+            3: {str: '',
+                cb: function(obj) { return obj.vast.ad.inline.creatives.creative[0].linear.duration;},
                 val: 15},
-            82: {str: 'vast.ad.inline.creatives.creative',
-                cb: function(obj) { return obj[0].linear.duration;},
+            82: {cb: function(obj) { return obj.vast.ad.inline.creatives.creative[0].linear.duration;},
                 val: 22},
           };
           var request = $.ajax({
@@ -250,7 +242,7 @@
         });
       });
 
-      describe('Get list of example VPAID ads', function() {
+      xdescribe('Get list of example VPAID ads', function() {
         var vpaidList;
         var testCases = {
           13 : [{str: 'vast.ad.inline.creatives.creative.linear.trackingevents.fullscreen.value',
