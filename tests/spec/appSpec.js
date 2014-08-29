@@ -181,20 +181,24 @@
       };
 
       function expectEachTag(jsonTags, testCases, done) {
-        // var arrOfPromises = [];
-        // var currPromise;
+        var arrOfPromises = [];
+        $.whenall = function(arr) { return $.when.apply($, arr); };
         for(var i = 0; i < jsonTags.tags.length; i++) {
-          getVastJsonFromId(jsonTags.tags[i].id)
-          .then(function(vastJson) {
-            var urlId = this;
-            console.log(urlId, vastJson);
-            expectTagJson(vastJson, testCases[urlId], urlId);
-            if(urlId === jsonTags.tags[jsonTags.tags.length - 1].id) {
-              done();
-              console.log('Completed testing of VAST examples');
-            }
-          }.myBind(jsonTags.tags[i].id));
+          arrOfPromises.push(
+            getVastJsonFromId(jsonTags.tags[i].id)
+            .then(function(vastJson) {
+              var urlId = this;
+              console.log(urlId, vastJson);
+              expectTagJson(vastJson, testCases[urlId], urlId);
+              var dfd = new jQuery.Deferred();
+              return dfd.resolve(urlId);
+            }.myBind(jsonTags.tags[i].id))
+          )
         }
+        $.whenall(arrOfPromises).then(function(arrData) {
+          done();
+          console.log('Completed testing of VAST examples: ', Array.prototype.slice.apply(arguments));
+        });
       };
 
       function expectTagJson(vastJson, test, urlId) {
@@ -208,7 +212,6 @@
               console.log("Error with url id:", urlId, err);
               throw err.message;
             }
-            // expect(test.cb(vastJson)).to.equal(test.val);
           }
         }
       };
