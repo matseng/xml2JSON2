@@ -126,7 +126,6 @@
           })
           .done(function(xmlDoc) {
             vastJson = x2js.xml2json(xmlDoc);
-            console.log(vastJson);
             expect(vastJson.vast.ad.inline.creatives.creative[1].companionads.companion).to.exist;
             done();
           })
@@ -276,7 +275,16 @@
           13: [{cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.trackingevents.fullscreen.value;},
             val: 'http://216.178.47.89/api/1.0/tag/13/event/fullscreen'},
             {cb: function(obj) {return obj.vast.ad.id;},
-            val: "ad-13"}]
+            val: "ad-13"}],
+          14: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.scalable},
+            val: 'true'},
+          15: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.value},
+            val: 'http://216.178.47.89/files/ivory.js?v=0.2'},
+          16: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.trackingevents.mute.value},
+            val: 'http://216.178.47.89/api/1.0/tag/16/event/mute'},
+          17: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.value},
+            val: 'http://216.178.47.89/files/selector.js'},
+            
         };
         it('should have the stated number of VPAID tags', function(done) {
           vpaidList = $.ajax({
