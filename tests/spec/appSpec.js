@@ -185,6 +185,7 @@
           getVastJsonFromId(jsonTags.tags[i].id)
           .then(function(vastJson) {
             var urlId = this;
+            console.log(urlId, vastJson);
             expectTagJson(vastJson, testCases[urlId], urlId);
             if(urlId === jsonTags.tags[jsonTags.tags.length - 1].id) {
               console.log('Completed testing of VAST examples');
@@ -218,8 +219,11 @@
         it('should have json lookups that correspond to correct xml parameters and values', function(done) {
           this.timeout(10000);
           var testCases = {
-            1 : {str: 'vast.version',
+            1 : [{str: 'vast.version',
                 val: '2.0'},
+                {str:'vast.ad.inline.creatives.creative',
+                cb: function(obj) {return obj[0].linear.duration;},
+                val: 15}],
             2 : [{str: 'vast.ad.wrapper.impression',
               cb: function(obj) {return obj.length;},
               val: 5},
