@@ -13,13 +13,13 @@
 
         try {
           myJsonObj = x2js.xml_str2json(xmlString1);
+          console.log(myJsonObj);  //logs in rendered HTML page
         } catch(err) {}
 
         it('should have a functioning xml to json parser', function() {
           expect(myJsonObj).to.exist;
         });
 
-        // console.log(myJsonObj);  //logs in rendered HTML page
         it('should have access to a root property', function() {
           expect(x2js.xml_str2json(xmlString0).root).to.equal('Root 0');
         });
@@ -33,8 +33,7 @@
     		});
     	});
 
-      describe('create lowercase strings as json keys', function() {
-        // var xmlString = "<Root name-example='Root Name'><ChildExample name='test'>Child 1</ChildExample><ChildExample>Child 2</ChildExample></Root>";
+      describe('create lowercase strings as json keys (except for AdParameters)', function() {
         var xmlString = "<VAST> \
             <ChildExample type='A'>URL1</ChildExample> \
             <ChildExample type='A'>URL2</ChildExample> \
@@ -54,7 +53,6 @@
           </VAST>";
         
         var jsonObj = x2js.xml_str2json(xmlString);
-        console.log(jsonObj);
         it('should convert VAST tag to lowercase vast (special case', function(){
           expect(jsonObj.vast).to.exist;
         });
@@ -82,7 +80,6 @@
         
         var jsonObj = x2js.xml_str2json(xmlString);
 
-        console.log(jsonObj);
         it('should condense child tags into array(s) of object(s)', function() {
           expect(jsonObj).to.exist;
           expect(jsonObj.vast.trackingevents.c1.value).to.equal('URL5');
@@ -94,10 +91,9 @@
 
     	describe('parse VAST XML examples', function() {
     		var xmlDoc = xmlFileLoader("../tests/xmlExampleFiles/basicVastExample.xml");
-        var vastJson = x2js.xml2json(xmlDoc);  //xmlDoc is a global variable => Grunfile.js => testRunner.html => xmlFileLoader.js
-        console.log(vastJson);
+        var vastJson = x2js.xml2json(xmlDoc);
         it('should load an XML document', function() {
-          expect(xmlDoc).to.exist;  
+          expect(xmlDoc).to.exist;
         });
         it('should have access to the version number', function() {
           expect(vastJson.vast.version).to.equal("3.0");
@@ -114,7 +110,6 @@
       describe('parse another VAST example', function() {
         var xmlDoc = xmlFileLoader("../tests/xmlExampleFiles/BasicVAST_JCP.xml");
         var vastJson = x2js.xml2json(xmlDoc);
-        console.log(vastJson);
         it('should have access to the media file(s)', function() {
           expect(vastJson.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.bitrate).to.equal('400');  
           expect(vastJson.vast.ad.inline.creatives.creative.linear.duration).to.equal(16);  //NOTE: The value '00:00:16' has been converted to 16 integer seconds
@@ -142,7 +137,7 @@
       });
 
       describe("Download json object that contains id's for example vast xml files", function() {
-        it('should have the stated number of tags (i.e. example vast xml files)', function(done) {        
+        it('should have the stated number of tags (i.e. example vast xml files)', function(done) {
           var request = $.ajax({
             type: 'GET',
             url: 'http://216.178.47.89/api/1.0/tags?type=vast',
@@ -248,7 +243,16 @@
               val: 'http://216.178.47.89/api/1.0/tag/9/event/fullscreen'},
             20: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.trackingevents.firstquartile.value},
               val: 'http://216.178.47.89/api/1.0/tag/20/event/firstQuartile'},
-
+            21: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.trackingevents.pause.value},
+              val: 'http://216.178.47.89/api/1.0/tag/21/event/pause'},
+            37: {cb: function(obj) {return obj.vast.ad},
+              val: undefined},  //empty xml test file
+            38: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.mediafiles.mediafile.id},
+                val: 'f0d1ad4d-54c9-4d10-b485-7a88996c68b2'},
+            71: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative[0].linear.mediafiles.mediafile.delivery},
+                val: 'progressive'},
+            77: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative[0].linear.mediafiles.mediafile.type},
+                val: 'video/mp4'},
             82: {cb: function(obj) { return obj.vast.ad.inline.creatives.creative[0].linear.duration;},
                 val: 22},
           };
@@ -266,7 +270,7 @@
         });
       });
 
-      xdescribe('Get list of example VPAID ads', function() {
+      describe('Get list of example VPAID ads', function() {
         var vpaidList;
         var testCases = {
           13: [{cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.trackingevents.fullscreen.value;},
