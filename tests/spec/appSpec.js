@@ -183,9 +183,11 @@
             .then(function(vastJson) {
               var urlId = this;
               console.log(urlId, vastJson);
-              expectTagJson(vastJson, testCases[urlId], urlId);
               var dfd = new jQuery.Deferred();
-              return dfd.resolve(urlId);
+              if(expectTagJson(vastJson, testCases[urlId], urlId)) {
+                return dfd.resolve(urlId);
+              }
+              return dfd.resolve("Missing tests for: " + urlId);
             }.myBind(jsonTags.tags[i].id))
           )
         }
@@ -202,15 +204,14 @@
             var test = currTestArray[key];
             try {
               expect(test.cb(vastJson)).to.equal(test.val);
+              return true;
             } catch(err) {
               console.log("Error with url id:", urlId, err);
               throw err.message;
             }
           }
-        } 
-        // else {
-        //   expect(test).to.exist;
-        // }
+        }
+        return false;
       };
 
       describe("Iterate over each vast xml file and apply tests", function() {
