@@ -181,6 +181,8 @@
       };
 
       function expectEachTag(jsonTags, testCases, done) {
+        // var arrOfPromises = [];
+        // var currPromise;
         for(var i = 0; i < jsonTags.tags.length; i++) {
           getVastJsonFromId(jsonTags.tags[i].id)
           .then(function(vastJson) {
@@ -188,8 +190,8 @@
             console.log(urlId, vastJson);
             expectTagJson(vastJson, testCases[urlId], urlId);
             if(urlId === jsonTags.tags[jsonTags.tags.length - 1].id) {
-              console.log('Completed testing of VAST examples');
               done();
+              console.log('Completed testing of VAST examples');
             }
           }.myBind(jsonTags.tags[i].id));
         }
@@ -206,6 +208,7 @@
               console.log("Error with url id:", urlId, err);
               throw err.message;
             }
+            // expect(test.cb(vastJson)).to.equal(test.val);
           }
         }
       };
@@ -234,6 +237,14 @@
               val: 'http://216.178.47.89/api/1.0/tag/5/event/clicktracking?sequence=1'},
             6: {cb: function(obj) {return obj.vast.ad[0].inline.creatives.creative.linear.trackingevents.creativeview.value},
               val: 'http://216.178.47.89/api/1.0/tag/6/event/creativeView?adid=1&sequence=1'},
+            7: {cb: function(obj) {return obj.vast.ad[0].wrapper.creatives.creative.linear.trackingevents.start.value},
+              val: 'http://216.178.47.89/api/1.0/tag/7/event/start?ad=8'},
+            8: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.trackingevents.start.value},
+              val: 'http://216.178.47.89/api/1.0/tag/8/event/start'},
+            9: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.trackingevents.fullscreen.value},
+              val: 'http://216.178.47.89/api/1.0/tag/9/event/fullscreen'},
+            20: {cb: function(obj) {return obj.vast.ad.inline.creatives.creative.linear.trackingevents.firstquartile.value},
+              val: 'http://216.178.47.89/api/1.0/tag/20/event/firstQuartile'},
 
             82: {cb: function(obj) { return obj.vast.ad.inline.creatives.creative[0].linear.duration;},
                 val: 22},
