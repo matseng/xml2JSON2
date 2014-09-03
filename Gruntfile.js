@@ -26,7 +26,7 @@ module.exports = function(grunt) {
       }
     },
 
-    watch: {
+    watchit: {
       jshint: {
         files: '<%= jshint.src %>',
         tasks: ['jshint']
@@ -50,8 +50,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-mocha');
 
+  // We want to build it before we watch, so can one-line it:
+  grunt.renameTask('watch', 'watchit');
+
   grunt.registerTask('default', 'jshint');
   grunt.registerTask('test', 'mocha');
-  grunt.registerTask('watch2', ['mocha', 'watch']);
+  grunt.registerTask('watch', ['mocha', 'watchit']);
 
 };
