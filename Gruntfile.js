@@ -38,7 +38,7 @@ module.exports = function(grunt) {
     },
     
     mocha: {
-      all: ['tests/testRunner.html'],
+      all: ['lib/xml2json/tests/testRunner.html'],
       options: {
         run: true,
         bail: true

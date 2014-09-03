@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- mtseng: http://216.178.47.89/api/1.0/tag/8 -->
+<VAST version="3.0">
+    <Ad id="ad-8">
+        <InLine>
+            <!-- <AdSystem><![CDATA[VindicoMobile]]></AdSystem> -->
+            <AdSystem>VindicoMobile</AdSystem>
+            <AdTitle><![CDATA[VINDICO_VAST_640x360_MP4]]></AdTitle>
+            <Description><![CDATA[VINDICO_VAST_640x360_MP4]]></Description>
+            <Impression id="Impression"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/impression]]></Impression>
+            <Creatives>
+                <Creative id="8" AdID="8" sequence="1">
+                    <Linear>
+                        <Duration>00:00:15</Duration>
+                        <TrackingEvents>
+                            <Tracking event="creativeView"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/creativeView]]></Tracking>
+                            <Tracking event="creativeView"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/creativeView?id=2]]></Tracking>
+                            <Tracking event="start"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/start]]></Tracking>
+                            <Tracking event="firstQuartile"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/firstQuartile]]></Tracking>
+                            <Tracking event="midpoint"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/midpoint]]></Tracking>
+                            <Tracking event="thirdQuartile"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/thirdQuartile]]></Tracking>
+                            <Tracking event="complete"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/complete]]></Tracking>
+                            <Tracking event="mute"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/mute]]></Tracking>
+                            <Tracking event="unmute"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/unmute]]></Tracking>
+                            <Tracking event="pause"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/pause]]></Tracking>
+                            <Tracking event="fullscreen"><![CDATA[http://216.178.47.89/api/1.0/tag/8/event/fullscreen]]></Tracking>
+                        </TrackingEvents>
+                        <VideoClicks>
+                            <ClickThrough><![CDATA[http://216.178.47.89/api/1.0/tag/8/clickthrough]]></ClickThrough>
+                        </VideoClicks>
+                        <MediaFiles>
+                            <MediaFile id="f0d1ad4d-54c9-4d10-b485-7a88996c68b2" height="360" width="640" bitrate="1063" type="video/mp4" delivery="progressive" maintainAspectRatio="true" scalable="true"><![CDATA[http://vindicoass1.edgesuite.net/Repository/CampaignCreative/Campaign_12906/INSTREAMAD/Myspace_15s_Final_MP4_16x9_720p.mp4]]></MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>
