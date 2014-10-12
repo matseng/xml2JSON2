@@ -3,6 +3,8 @@
   - xml files are loaded via xmlFileLoader.js
   - xml files are parsed with customized xml2json.js parser
 
+# Had to run "npm install" twice to avoid errors (not sure why)
+
 # Run tests from the command prompt via:
   $ grunt test
   [or]
